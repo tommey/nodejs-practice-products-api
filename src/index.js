@@ -6,6 +6,13 @@ var router = require('./router');
 
 var app = koa();
 
+app.use(function* (next) {
+        var start = new Date();
+        console.log('Request', this.method, this.path, start);
+        yield next;
+        console.log('Request processed in', (new Date()).getTime() - start.getTime(), 'ms');
+});
+
 var requests = 0;
 app.use(function* (next) {
 	requests++;
